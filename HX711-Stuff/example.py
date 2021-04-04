@@ -40,7 +40,53 @@ hx.set_reading_format("MSB", "MSB")
 # To set the reference unit to 1. Put 1kg on your sensor or anything you have and know exactly how much it weights.
 # In this case, 92 is 1 gram because, with 1 as a reference unit I got numbers near 0 without any weight
 # and I got numbers around 184000 when I added 2kg. So, according to the rule of thirds:
-# If 2000 grams is 184000 then 1000 grams is 184000 / 2000 = 92.
+# If 2000 grams is 184000 then 1000 grams is 184000 / 2000 = 92.try:
+    
+    # Pin definitions for the HX711
+    data_pin = 13
+    clock_pin = 12
+    
+    # Setup for HX711
+    hx = HX711(dout_pin=DataPindata_pin,pd_sck_pin=clock_pin,gain=128,channel='A')
+    
+    # See if resetting HX711 was successful
+    print("Reset")
+    
+    result = hx.reset()    	# Before we start, reset the hx711 ( not necessary)try:
+    
+    # Pin definitions for the HX711
+    data_pin = 13
+    clock_pin = 12
+    
+    # Setup for HX711
+    hx = HX711(dout_pin=DataPindata_pin,pd_sck_pin=clock_pin,gain=128,channel='A')
+    
+    # See if resetting HX711 was successful
+    print("Reset")
+    
+    result = hx.reset()    	# Before we start, reset the hx711 ( not necessary)
+    if result:    		# you can check if the reset was successful
+        print('Ready to use')
+    else:
+    	print('not ready')
+    
+    data = hx.get_raw_data(NumReadings)
+    
+    if data != False:	# always check if you get correct value or only False
+    	print('Raw data: ' + str(data))
+    else:
+    	print('invalid data')
+    if result:    		# you can check if the reset was successful
+        print('Ready to use')
+    else:
+    	print('not ready')
+    
+    data = hx.get_raw_data(NumReadings)
+    
+    if data != False:	# always check if you get correct value or only False
+    	print('Raw data: ' + str(data))
+    else:
+    	print('invalid data')
 #hx.set_reference_unit(113)
 hx.set_reference_unit(referenceUnit)
 
