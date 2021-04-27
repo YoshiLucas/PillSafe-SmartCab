@@ -199,7 +199,7 @@ try:
                     hx.tare()
                     
                     # Weighs medication bottle and records weight
-                    print("Please place take your medication, return the bottle to the cabinet, and close the door.")
+                    print("Please take your medication, return the bottle to the cabinet, and close the door.")
                     while door_open == True:
                         if GPIO.input(door_pin) == True:
                             door_open = False
