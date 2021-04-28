@@ -15,6 +15,7 @@ import datetime
 import RPi.GPIO as GPIO
 from cryptography.fernet import Fernet
 from hx711 import HX711
+from playsound import playsound
 
 
 
@@ -99,6 +100,7 @@ if len(os.listdir("Users")) == 0:
             print("Please enter a number between 0 and 2")
     sensor_tared = False
     while sensor_tared == False:
+        playsound("audio_files/place_cap.wav")
         cap_on = input("Please place the cap of the medication bottle in the cabinet, if applicable, and enter \"done\" when you have done that: ")
         if cap_on == "done":
             hx.tare()
@@ -106,6 +108,7 @@ if len(os.listdir("Users")) == 0:
             sensor_tared = True
     pills_weighed = False
     while pills_weighed == False:
+        playsound("audio_files/place_doses.wav")
         pill_number = input("Please place 1 to 10 doses of your medication on the scale (10 would be best), and enter the number of doses you have placed: ")
         pill_number = int(pill_number)
         if type(pill_number) == int:
@@ -115,11 +118,13 @@ if len(os.listdir("Users")) == 0:
     bottle_weighed = False
     GPIO.output(tare_light_pin,GPIO.HIGH)
     print("Please return the medication into its bottle and clear everything from the cabinet. Please press the tare button when finished.")
+    playsound("audio_files/return_med.wav")
     while bottle_weighed == False:
         if GPIO.input(tare_button_pin) == True:
             GPIO.output(tare_light_pin,GPIO.LOW)
             hx.tare()
             print("Please place the entire medication bottle in the cabinet, and close the door.")
+            playsound("audio_files/place_in_cab.wav")
             door_open = True
             while door_open == True:
                 if GPIO.input(door_pin) == True:
@@ -143,6 +148,7 @@ if len(os.listdir("Users")) == 0:
     with open(f"Users/{name}/medication_weight.txt","wb") as medication_weight_file:
         medication_weight_file.write(fn.encrypt(str(medication_weight).encode()))
     print("Setup is complete! You can now take your medication as prescribed.")
+    playsound("audio_files/setup_complete.wav")
 else:
     name = os.listdir("Users")[0]
     medication_weight = open(f"Users/{name}/medication_weight.txt","rb").read()
@@ -192,6 +198,7 @@ try:
             tared = False
             GPIO.output(tare_light_pin,GPIO.HIGH)
             print("Please clear everything from the cabinet, and press the tare button.")
+            playsound("audio_files/daily_tare.wav")
             while tared == False and door_open == True:
                 if GPIO.input(tare_button_pin) == True:
                     print("button pressed")
@@ -200,10 +207,11 @@ try:
                     
                     # Weighs medication bottle and records weight
                     print("Please take your medication, return the bottle to the cabinet, and close the door.")
+                    playsound("audio_files/take_med.wav")
                     while door_open == True:
                         if GPIO.input(door_pin) == True:
                             door_open = False
-                    time.sleep(5)
+                    time.sleep(3)
                     current_time = datetime.datetime.now()
                     current_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
                     current_bottle_weight = hx.get_weight(21)
@@ -230,6 +238,7 @@ try:
                     # See if it was time to take medication
                     if reminder == False:
                         print("Please make sure to take your medication at the specified time")
+                        playsound("audio_files/not_time.wav")
                     
                     # Resets reminder light
                     if doses >= 1:
@@ -239,8 +248,10 @@ try:
                     # Check the number of doses taken
                     if doses == 0:
                         print("Please make sure you take your medication!")
+                        playsound("audio_files/take_your_pills.wav")
                     if doses > 1:
                         print("Please make sure to take the correct dose of your medication.")
+                        playsound("audio_files/correct_dose.wav")
                 
                 # Alternative exit in case user changes mind and closes door
                 if GPIO.input(door_pin) == True:

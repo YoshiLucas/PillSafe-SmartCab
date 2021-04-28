@@ -55,19 +55,22 @@ print("Please make sure to take your medication at the specified time")
 print("Please make sure you take your medication!")
 print("Please make sure to take the correct dose of your medication.")
 """
-"""
+
 from hx711 import HX711
+import time
 data_pin = 12
 clock_pin = 13
 hx = HX711(data_pin, clock_pin)
 hx.set_reading_format("MSB", "MSB")
 hx.tare()
-print(hx.get_weight(21))
-"""
+while 1:
+    print(hx.get_weight(9))
+#    time.sleep(0.5)
 
+"""
 # 
 from playsound import playsound
 playsound('CantinaBand60.wav')
-
+"""
 
 
