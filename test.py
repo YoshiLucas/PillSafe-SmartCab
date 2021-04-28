@@ -21,7 +21,7 @@ except KeyboardInterrupt:
 # Button test
 import RPi.GPIO as GPIO
 import time
-tare_button_pin = 17
+tare_button_pin = 5
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(tare_button_pin,GPIO.IN)
 try:
@@ -55,7 +55,7 @@ print("Please make sure to take your medication at the specified time")
 print("Please make sure you take your medication!")
 print("Please make sure to take the correct dose of your medication.")
 """
-
+#"""
 from hx711 import HX711
 import time
 data_pin = 12
@@ -66,7 +66,7 @@ hx.tare()
 while 1:
     print(hx.get_weight(9))
 #    time.sleep(0.5)
-
+#"""
 """
 # 
 from playsound import playsound
