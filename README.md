@@ -1,3 +1,3 @@
 # PillSafe-SmartCab
-Code for operating the PillSafe SmartCab
-Test
+Code for operating the PillSafe SmartCab for our senior design project.
+
